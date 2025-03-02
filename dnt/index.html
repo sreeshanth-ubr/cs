@@ -1,0 +1,113 @@
+<!-- game3/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        #quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .option {
+            display: block;
+            margin: 10px;
+            padding: 10px;
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h2 id="question">Question will appear here</h2>
+        <button class="option" onclick="checkAnswer(0)">Option 1</button>
+        <button class="option" onclick="checkAnswer(1)">Option 2</button>
+        <button class="option" onclick="checkAnswer(2)">Option 3</button>
+        <button class="option" onclick="checkAnswer(3)">Option 4</button>
+        <p id="result"></p>
+        <p id="score">Score: 0</p>
+    </div>
+    
+    <script>
+        const quizData = [
+            { question: "What is the capital of Kerala?", options: ["Kochi", "Thiruvananthapuram", "Kozhikode", "Kannur"], answer: 1 },
+            { question: "Which is the official language of Kerala?", options: ["Hindi", "Tamil", "Malayalam", "Kannada"], answer: 2 },
+            { question: "Which river is known as the lifeline of Kerala?", options: ["Periyar", "Bharathapuzha", "Chaliyar", "Pamba"], answer: 0 },
+            { question: "What is Kerala famously known as?", options: ["Land of Spices", "God's Own Country", "Land of Festivals", "The Backwater State"], answer: 1 },
+            { question: "Which dance form originated in Kerala?", options: ["Bharatanatyam", "Kathak", "Kathakali", "Odissi"], answer: 2 },
+            { question: "Which festival is grandly celebrated in Kerala?", options: ["Diwali", "Onam", "Holi", "Pongal"], answer: 1 },
+            { question: "Which sea is to the west of Kerala?", options: ["Bay of Bengal", "Arabian Sea", "Indian Ocean", "Pacific Ocean"], answer: 1 },
+            { question: "Which is the highest peak in Kerala?", options: ["Agasthyarkoodam", "Anamudi", "Chembra Peak", "Ponmudi"], answer: 1 },
+            { question: "Which city is known as the 'Queen of the Arabian Sea'?", options: ["Thiruvananthapuram", "Kozhikode", "Kochi", "Kannur"], answer: 2 },
+            { question: "Which Kerala district has the highest literacy rate?", options: ["Kottayam", "Alappuzha", "Ernakulam", "Kozhikode"], answer: 0 },
+            { question: "Which Kerala state animal is endangered?", options: ["Lion", "Tiger", "Elephant", "Nilgiri Tahr"], answer: 3 },
+            { question: "Which of these is a traditional Kerala dish?", options: ["Dhokla", "Sadya", "Pav Bhaji", "Puran Poli"], answer: 1 },
+            { question: "Which sport is most popular in Kerala?", options: ["Cricket", "Football", "Hockey", "Badminton"], answer: 1 },
+            { question: "Which Kerala-born mathematician contributed to calculus?", options: ["Aryabhata", "Bhaskara I", "Madhava of Sangamagrama", "Varahamihira"], answer: 2 },
+            { question: "Which state shares the longest border with Kerala?", options: ["Karnataka", "Tamil Nadu", "Andhra Pradesh", "Maharashtra"], answer: 1 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= quizData.length) {
+                if (score >= 10) {
+                    document.getElementById("quiz-container").innerHTML = "<h2>Congratulations! You Win!</h2>";
+                } else {
+                    document.getElementById("quiz-container").innerHTML = "<h2>Game Over! Try Again.</h2>";
+                }
+                return;
+            }
+            const questionData = quizData[currentQuestionIndex];
+            document.getElementById("question").innerText = questionData.question;
+            const buttons = document.getElementsByClassName("option");
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].innerText = questionData.options[i];
+            }
+        }
+
+        function checkAnswer(selectedIndex) {
+            const questionData = quizData[currentQuestionIndex];
+            const result = document.getElementById("result");
+            if (selectedIndex === questionData.answer) {
+                result.innerText = "Correct!";
+                result.style.color = "green";
+                score++;
+                document.getElementById("score").innerText = "Score: " + score;
+            } else {
+                result.innerText = "Wrong! Try again.";
+                result.style.color = "red";
+            }
+            setTimeout(() => {
+                result.innerText = "";
+                currentQuestionIndex++;
+                loadQuestion();
+            }, 1000);
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
