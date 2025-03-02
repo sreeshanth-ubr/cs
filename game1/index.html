@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>Chrome Dino Game</title>
     <style>
         body {
@@ -46,16 +46,40 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .custom-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 2px solid black;
+            text-align: center;
+            display: none;
+            z-index: 1000;
+        }
+        .custom-alert button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <h1>Chrome Dino Game</h1>
     <div class="game-container">
-        <img src="https://th.bing.com/th/id/OIP.3nqiM_O3knfBL5BXFDwFQgHaHa?rs=1&pid=ImgDetMain" class="dino" id="dino"></img>
-        <img src="obj.png" class="obstacle" id="obstacle"></img>
+        <img src="https://th.bing.com/th/id/OIP.3nqiM_O3knfBL5BXFDwFQgHaHa?rs=1&pid=ImgDetMain" class="dino" id="dino">
+        <img src="obj.png" class="obstacle" id="obstacle">
     </div>
     <button class="jump-btn" id="jumpBtn">Jump</button>
     <p>Score: <span id="score">0</span></p>
+    <div class="custom-alert" id="customAlert">
+        <p id="alertMessage"></p>
+        <button onclick="closeAlert()">OK</button>
+    </div>
     <script>
         let dino = document.getElementById("dino");
         let obstacle = document.getElementById("obstacle");
@@ -63,12 +87,13 @@
         let jumpBtn = document.getElementById("jumpBtn");
         let isJumping = false;
         let score = 0;
+        let gameRunning = true;
 
         document.addEventListener("touchstart", jump);
         jumpBtn.addEventListener("click", jump);
 
         function jump() {
-            if (isJumping) return;
+            if (isJumping || !gameRunning) return;
             isJumping = true;
             let position = 0;
             let upInterval = setInterval(() => {
@@ -91,12 +116,18 @@
         function moveObstacle() {
             let obstaclePosition = 580;
             let interval = setInterval(() => {
+                if (!gameRunning) {
+                    clearInterval(interval);
+                    return;
+                }
                 if (obstaclePosition <= 0) {
                     obstaclePosition = 580;
                     score += 10;
                     scoreElement.textContent = score;
                     if (score === 100) {
-                        alert("Congratulations! You reached a score of 100!");
+                        showAlert("Hint: You can drink me, swim in me, but never hold me in your hands for long.");
+                        gameRunning = false;
+                        return;
                     }
                 }
                 obstaclePosition -= 5;
@@ -104,11 +135,20 @@
                 
                 let dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
                 if (obstaclePosition < 90 && obstaclePosition > 50 && dinoBottom < 40) {
-                    alert("Game Over");
-                    clearInterval(interval);
-                    location.reload();
+                    showAlert("Game Over");
+                    gameRunning = false;
+                    setTimeout(() => location.reload(), 2000);
                 }
             }, 20);
+        }
+
+        function showAlert(message) {
+            document.getElementById("alertMessage").textContent = message;
+            document.getElementById("customAlert").style.display = "block";
+        }
+
+        function closeAlert() {
+            document.getElementById("customAlert").style.display = "none";
         }
 
         moveObstacle();
