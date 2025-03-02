@@ -172,8 +172,8 @@
     obstacles.push(obstacle);
 
     // Randomize spawn timing but ensure gaps are reasonable
-    let minSpawnTime = 1500; // 1.5s (prevents obstacles from being too close)
-    let maxSpawnTime = 2500; // 2.5s (adds variation)
+    let minSpawnTime = 2500; // 1.5s (prevents obstacles from being too close)
+    let maxSpawnTime = 3500; // 2.5s (adds variation)
     
     setTimeout(spawnObstacle, Math.random() * (maxSpawnTime - minSpawnTime) + minSpawnTime);
 }
