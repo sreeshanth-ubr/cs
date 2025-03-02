@@ -69,12 +69,12 @@
     </style>
 </head>
 <body>
-    <h1>Chrome Dino Game</h1>
+   
     <div class="game-container">
         <img src="https://th.bing.com/th/id/OIP.3nqiM_O3knfBL5BXFDwFQgHaHa?rs=1&pid=ImgDetMain" class="dino" id="dino">
         <img src="obj.png" class="obstacle" id="obstacle">
     </div>
-    <button class="jump-btn" id="jumpBtn">Jump</button>
+    
     <p>Score: <span id="score">0</span></p>
     <div class="message-box" id="messageBox">
         <p id="messageText"></p>
@@ -84,13 +84,13 @@
         let dino = document.getElementById("dino");
         let obstacle = document.getElementById("obstacle");
         let scoreElement = document.getElementById("score");
-        let jumpBtn = document.getElementById("jumpBtn");
+       
         let isJumping = false;
         let score = 0;
         let gameRunning = true;
 
         document.addEventListener("touchstart", jump);
-        jumpBtn.addEventListener("click", jump);
+        
 
         function jump() {
             if (isJumping || !gameRunning) return;
