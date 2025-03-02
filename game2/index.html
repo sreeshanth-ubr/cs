@@ -39,15 +39,20 @@
         }
 
         .controls {
+            margin-top: 1rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap:10;
+            gap: 1rem;
         }
         
         .controls div {
             display: flex;
-            gap: 10px;
+            gap: 5rem;
+        }
+
+        .controls button ,.controls div button{
+            padding: 1rem;
         }
         
 
@@ -84,18 +89,18 @@
 </head>
 <body>
 
-   
+    <h1>Snake Game</h1>
     <div class="game-container">
         <canvas id="gameCanvas" width="300" height="300"></canvas>
     </div>
 
     <div class="controls">
-        <button onclick="changeDirection('Up')">⬆️</button>
+        <button onclick="changeDirection('Up')"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAANtJREFUSEvtlEEKwjAQRV/PoaDoMVTwEB7BjWtP4sadW+8h4i0UFBS9RXVgAiEkzQQsCDWrljD//fyftqLlVbWsT/cAA430Zo22JKI+cFThGXC3QKwAJz5U0StgglgAobgzboLkACJ+AEaACPonkOcLMAVeqbiaAL5zKXXi5S57J0BKP2tcUUgKEBN/ALU6lbmeBZICrICtupsDIi7LB8i7QCTC8ed0S2AXRtUU0RrYA09vKAQ4yALYxHrIlRzOxACNn8MfkP1b/FxEWccl17RY7BvXtBha2kEHAW8WqCoZLgVpRgAAAABJRU5ErkJggg=="/></button>
         <div>
-            <button onclick="changeDirection('Left')">⬅️</button>
-            <button onclick="changeDirection('Right')">➡️</button>
+            <button onclick="changeDirection('Left')"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAMNJREFUSEvtlDEKwkAQRV8OIWiv4BlE8BaCteB1xFrwMArewcZe8BD6wYUtss5Mku2SMizv/fnZSUPlp6nMZxSYDUcqmgI74GhSswNegeBXYAEcgLNX4hEIfgPmwBNYAa+hBDn8AWwicIX4N8EEuP+SC74G3t7k6VxJILg6X34/bGd4aYIcHgncGrbtZXWBUletKNUyiMTag943yRJoml674BEkSfpV7IGL93p5BeLNgC1w8sKtTY5wimcjE3QSjgKztg/ExiAZuzHo1gAAAABJRU5ErkJggg=="/></button>
+            <button onclick="changeDirection('Right')"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAMZJREFUSEvtlE0KwjAQhb/eQXDvpndQ0OuI24I3EfeCBxHEMwh6AGnBK2gHKkTEzA8WN802yXx5b96koOdV9FyfAaA6HLFoDeyAm1od3D1YARvgAswtEK+CMXBqFUyAKzAFmpwSL0BqpZBzp+QrJAJ4QQ5ACWQhUYBARsBRg+QAD0tKkjOiZAbc03u/Bkiy3vrxV4tyDpn8lwIRBRJTU4IiANcMRADLdtC2XfYXQK0lLWJRBewt/1BEgfbgj/2IAhdkAKh2PQESzCgZeI9igwAAAABJRU5ErkJggg=="/></button>
         </div>
-        <button onclick="changeDirection('Down')">⬇️</button>
+        <button onclick="changeDirection('Down')"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAALRJREFUSEvtkzEKAjEURN/aegFPIdjaC15GD6OXEba3FTyFF7BVebjCFmbzUwQUMk2aycyfyU9HZXSV9WkG2YZ/rqLnMHJ4sDBxEG4G2aX4r4oOwC6b6U04Avtv3KktmgEnYJMx6YEt8Cg1kD8HzsAyYXIF1sA9NUTkHyyAC+A5xg1YAZ5JRAy8bAKTmEg4sZObYBJRA0V8C99E2LndZ1FioNhnq9yaEEoNQqJjUjPIVla9ohfKMhcZL7kKVQAAAABJRU5ErkJggg=="/></button>
     </div>
 
     <div id="gameOverPopup" class="popup">
