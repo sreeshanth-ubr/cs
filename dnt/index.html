@@ -86,7 +86,7 @@
                 return;
             }
             const questionData = quizData[currentQuestionIndex];
-            document.getElementById("question").innerText = questionData.question;
+            document.getElementById("question").innerText = questionData.q;
             const buttons = document.getElementsByClassName("option");
             for (let i = 0; i < buttons.length; i++) {
                 buttons[i].innerText = questionData.options[i];
