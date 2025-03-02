@@ -77,12 +77,11 @@
         let score = 0;
 
         function loadQuestion() {
+            if (score >= 10) {
+                document.getElementById("quiz-container").innerHTML = "<h2>Congratulations! You Win!</h2>";
+            }
             if (currentQuestionIndex >= quizData.length) {
-                if (score >= 15) {
-                    document.getElementById("quiz-container").innerHTML = "<h2>hint</h2><br><p>Shh! Keep it quiet, don’t make a sound, your next clue is where silence is found!</p>";
-                } else {
                     document.getElementById("quiz-container").innerHTML = "<h2>Game Over! Try Again.</h2>";
-                }
                 return;
             }
             const questionData = quizData[currentQuestionIndex];
