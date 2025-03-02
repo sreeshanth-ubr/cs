@@ -144,21 +144,39 @@
             requestAnimationFrame(updateGame);
         }
 
-        function spawnObstacle() {
-            if (isGameOver) return;
+       function spawnObstacle() {
+    if (isGameOver) return;
 
-            let obstacleSize = dino.width * 0.6;
-            let obstacle = {
-                x: canvas.width, 
-                y: canvas.height - obstacleSize - 10,
-                width: obstacleSize, 
-                height: obstacleSize, 
-                speed: 6
-            };
-            obstacles.push(obstacle);
+    let lastObstacle = obstacles.length > 0 ? obstacles[obstacles.length - 1] : null;
+    let minGap = dino.width * 2.5; // Ensure obstacles don't spawn too close
+    let newObstacleX = canvas.width; // Default position at the right edge
 
-            setTimeout(spawnObstacle, Math.random() * 2000 + 1000);
+    // If there's an existing obstacle, adjust new obstacle's position
+    if (lastObstacle) {
+        let distance = newObstacleX - (lastObstacle.x + lastObstacle.width);
+
+        // If the distance is too small, adjust it
+        if (distance < minGap) {
+            newObstacleX = lastObstacle.x + lastObstacle.width + minGap;
         }
+    }
+
+    let obstacleSize = dino.width * 0.6;
+    let obstacle = {
+        x: newObstacleX,
+        y: canvas.height - obstacleSize - 10,
+        width: obstacleSize,
+        height: obstacleSize,
+        speed: 6
+    };
+    obstacles.push(obstacle);
+
+    // Randomize spawn timing but ensure gaps are reasonable
+    let minSpawnTime = 1500; // 1.5s (prevents obstacles from being too close)
+    let maxSpawnTime = 2500; // 2.5s (adds variation)
+    
+    setTimeout(spawnObstacle, Math.random() * (maxSpawnTime - minSpawnTime) + minSpawnTime);
+}
 
         function endGame(message) {
             isGameOver = true;
