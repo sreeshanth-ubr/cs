@@ -1,0 +1,177 @@
+<!-- game2/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 2px solid white;
+        }
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            grid-template-rows: repeat(2, 50px);
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .controls button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .up {
+            grid-column: 2;
+        }
+        .left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        .down {
+            grid-column: 2;
+            grid-row: 2;
+        }
+        .right {
+            grid-column: 3;
+            grid-row: 2;
+        }
+        #retryButton {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #score {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="score">Score: 0</div>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div class="controls">
+        <button class="up" onclick="handleControlPress(38)">⬆️</button>
+        <button class="left" onclick="handleControlPress(37)">⬅️</button>
+        <button class="down" onclick="handleControlPress(40)">⬇️</button>
+        <button class="right" onclick="handleControlPress(39)">➡️</button>
+    </div>
+    <button id="retryButton" onclick="resetGame()">Retry</button>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const retryButton = document.getElementById("retryButton");
+        const scoreDisplay = document.getElementById("score");
+        
+        const box = 20;
+        let snake, food, direction, gameOver, gameInterval, gameStarted, score;
+        
+        function initializeGame() {
+            snake = [{ x: 200, y: 200 }];
+            food = { x: Math.floor(Math.random() * 20) * box, y: Math.floor(Math.random() * 20) * box };
+            direction = "RIGHT";
+            gameOver = false;
+            gameStarted = false;
+            score = 0;
+            scoreDisplay.textContent = "Score: " + score;
+            retryButton.style.display = "none";
+        }
+        
+        function startGame() {
+            if (gameStarted) return;
+            gameStarted = true;
+            gameInterval = setInterval(draw, 300);
+        }
+        
+        document.addEventListener("keydown", (event) => {
+            if (!gameStarted) startGame();
+            changeDirection(event);
+        });
+        
+        function handleControlPress(keyCode) {
+            if (!gameStarted) startGame();
+            changeDirection({ keyCode });
+        }
+        
+        function changeDirection(event) {
+            const key = event.keyCode;
+            if (key === 37 && direction !== "RIGHT") direction = "LEFT";
+            else if (key === 38 && direction !== "DOWN") direction = "UP";
+            else if (key === 39 && direction !== "LEFT") direction = "RIGHT";
+            else if (key === 40 && direction !== "UP") direction = "DOWN";
+        }
+        
+        function draw() {
+            if (gameOver) return;
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = "red";
+            ctx.fillRect(food.x, food.y, box, box);
+            
+            ctx.fillStyle = "lime";
+            snake.forEach((segment) => {
+                ctx.fillRect(segment.x, segment.y, box, box);
+            });
+            
+            let newX = snake[0].x;
+            let newY = snake[0].y;
+            
+            if (direction === "LEFT") newX -= box;
+            if (direction === "UP") newY -= box;
+            if (direction === "RIGHT") newX += box;
+            if (direction === "DOWN") newY += box;
+            
+            if (newX === food.x && newY === food.y) {
+                food = { x: Math.floor(Math.random() * 20) * box, y: Math.floor(Math.random() * 20) * box };
+                score++;
+                scoreDisplay.textContent = "Score: " + score;
+                if (score >= 20) {
+                    alert("You win!");
+                    resetGame();
+                }
+            } else {
+                snake.pop();
+            }
+            
+            const newHead = { x: newX, y: newY };
+            
+            if (newX < 0 || newX >= canvas.width || newY < 0 || newY >= canvas.height || snake.some(segment => segment.x === newX && segment.y === newY)) {
+                gameOver = true;
+                clearInterval(gameInterval);
+                retryButton.style.display = "block";
+                return;
+            }
+            
+            snake.unshift(newHead);
+        }
+        
+        function resetGame() {
+            clearInterval(gameInterval);
+            initializeGame();
+            startGame();
+        }
+        
+        initializeGame();
+    </script>
+</body>
+</html>
