@@ -1,0 +1,136 @@
+<!-- game1/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome Dino Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            background-color: white;
+            border-bottom: 2px solid black;
+        }
+        #score {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="score">Score: 0</div>
+    <canvas id="gameCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const scoreDisplay = document.getElementById("score");
+        
+        canvas.width = window.innerWidth * 0.9;
+        canvas.height = 200;
+        
+        const dinoImg = new Image();
+        dinoImg.src = "Dino.jpg";
+
+        const objImg = new Image();
+        objImg.src = "obj.png";
+        
+        let dino = { x: 50, y: 150, width: 40, height: 40, dy: 0, gravity: 0.5, jumpPower: -10, onGround: true };
+        let obstacles = [];
+        let isGameOver = false;
+        let score = 0;
+
+        function drawDino() {
+            ctx.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
+        }
+
+        function drawObstacles() {
+            
+            obstacles.forEach(obstacle => {
+                ctx.drawImage(objImg,obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+            });
+        }
+
+        function updateGame() {
+            if (isGameOver) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawDino();
+            drawObstacles();
+
+            dino.y += dino.dy;
+            dino.dy += dino.gravity;
+
+            if (dino.y >= 150) {
+                dino.y = 150;
+                dino.dy = 0;
+                dino.onGround = true;
+            }
+
+            obstacles.forEach((obstacle, index) => {
+                obstacle.x -= obstacle.speed;
+                if (obstacle.x + obstacle.width < 0) {
+                    obstacles.splice(index, 1);
+                    score++;
+                    scoreDisplay.textContent = "Score: " + score;
+                    
+                    if (score >= 5) {
+                        isGameOver = true;
+                        alert("Congratulations! You Win!");
+                        location.reload();
+                    }
+                }
+                if (
+                    dino.x < obstacle.x + obstacle.width &&
+                    dino.x + dino.width > obstacle.x &&
+                    dino.y < obstacle.y + obstacle.height &&
+                    dino.y + dino.height > obstacle.y
+                ) {
+                    isGameOver = true;
+                    alert("Game Over! Final Score: " + score);
+                    location.reload();
+                }
+            });
+
+            requestAnimationFrame(updateGame);
+        }
+
+        function spawnObstacle() {
+            if (!isGameOver) {
+                let obstacle = { x: canvas.width, y: 160, width: 30, height: 35, speed: 5 };
+                obstacles.push(obstacle);
+                setTimeout(spawnObstacle, Math.random() * 2000 + 1000);
+            }
+        }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.code === "Space" && dino.onGround) {
+                dino.dy = dino.jumpPower;
+                dino.onGround = false;
+            }
+        });
+
+        document.addEventListener("touchstart", function () {
+            if (dino.onGround) {
+                dino.dy = dino.jumpPower;
+                dino.onGround = false;
+            }
+        });
+
+        spawnObstacle();
+        updateGame();
+    </script>
+</body>
+</html>
