@@ -133,8 +133,14 @@
                 obstaclePosition -= 5;
                 obstacle.style.right = (600 - obstaclePosition) + "px";
                 
-                let dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
-                if (obstaclePosition < 90 && obstaclePosition > 50 && dinoBottom < 40) {
+                let dinoRect = dino.getBoundingClientRect();
+                let obstacleRect = obstacle.getBoundingClientRect();
+                
+                if (
+                    dinoRect.right > obstacleRect.left &&
+                    dinoRect.left < obstacleRect.right &&
+                    dinoRect.bottom > obstacleRect.top
+                ) {
                     showMessage("Game Over");
                     gameRunning = false;
                     setTimeout(() => location.reload(), 2000);
