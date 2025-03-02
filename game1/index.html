@@ -161,7 +161,7 @@
         }
     }
 
-    let obstacleSize = dino.width * 0.6;
+    let obstacleSize = dino.width * 0.8;
     let obstacle = {
         x: newObstacleX,
         y: canvas.height - obstacleSize - 10,
@@ -173,7 +173,7 @@
 
     // Randomize spawn timing but ensure gaps are reasonable
     let minSpawnTime = 2500; // 1.5s (prevents obstacles from being too close)
-    let maxSpawnTime = 3500; // 2.5s (adds variation)
+    let maxSpawnTime = 3000; // 2.5s (adds variation)
     
     setTimeout(spawnObstacle, Math.random() * (maxSpawnTime - minSpawnTime) + minSpawnTime);
 }
