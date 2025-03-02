@@ -51,21 +51,26 @@
     
     <script>
         const quizData = [
-            { question: "What is the capital of Kerala?", options: ["Kochi", "Thiruvananthapuram", "Kozhikode", "Kannur"], answer: 1 },
-            { question: "Which is the official language of Kerala?", options: ["Hindi", "Tamil", "Malayalam", "Kannada"], answer: 2 },
-            { question: "Which river is known as the lifeline of Kerala?", options: ["Periyar", "Bharathapuzha", "Chaliyar", "Pamba"], answer: 0 },
-            { question: "What is Kerala famously known as?", options: ["Land of Spices", "God's Own Country", "Land of Festivals", "The Backwater State"], answer: 1 },
-            { question: "Which dance form originated in Kerala?", options: ["Bharatanatyam", "Kathak", "Kathakali", "Odissi"], answer: 2 },
-            { question: "Which festival is grandly celebrated in Kerala?", options: ["Diwali", "Onam", "Holi", "Pongal"], answer: 1 },
-            { question: "Which sea is to the west of Kerala?", options: ["Bay of Bengal", "Arabian Sea", "Indian Ocean", "Pacific Ocean"], answer: 1 },
-            { question: "Which is the highest peak in Kerala?", options: ["Agasthyarkoodam", "Anamudi", "Chembra Peak", "Ponmudi"], answer: 1 },
-            { question: "Which city is known as the 'Queen of the Arabian Sea'?", options: ["Thiruvananthapuram", "Kozhikode", "Kochi", "Kannur"], answer: 2 },
-            { question: "Which Kerala district has the highest literacy rate?", options: ["Kottayam", "Alappuzha", "Ernakulam", "Kozhikode"], answer: 0 },
-            { question: "Which Kerala state animal is endangered?", options: ["Lion", "Tiger", "Elephant", "Nilgiri Tahr"], answer: 3 },
-            { question: "Which of these is a traditional Kerala dish?", options: ["Dhokla", "Sadya", "Pav Bhaji", "Puran Poli"], answer: 1 },
-            { question: "Which sport is most popular in Kerala?", options: ["Cricket", "Football", "Hockey", "Badminton"], answer: 1 },
-            { question: "Which Kerala-born mathematician contributed to calculus?", options: ["Aryabhata", "Bhaskara I", "Madhava of Sangamagrama", "Varahamihira"], answer: 2 },
-            { question: "Which state shares the longest border with Kerala?", options: ["Karnataka", "Tamil Nadu", "Andhra Pradesh", "Maharashtra"], answer: 1 }
+            { q: "What does CPU stand for?", options: ["Central Processing Unit", "Computer Processing Unit", "Central Performance Unit", "Central Programming Unit"], answer: 0 },
+            { q: "Which of the following is NOT a programming language?", options: ["Python", "HTML", "Java", "C++"], answer: 1 },
+            { q: "What is the full form of RAM?", options: ["Random Access Memory", "Read Access Memory", "Rapid Application Management", "Remote Access Module"], answer: 0 },
+            { q: "Who is known as the father of the computer?", options: ["Alan Turing", "Charles Babbage", "Bill Gates", "Steve Jobs"], answer: 1 },
+            { q: "What does GUI stand for?", options: ["Graphical User Interface", "General Utility Interface", "Graphical Uniform Interaction", "Global User Integration"], answer: 0 },
+            { q: "Which data structure follows the Last In, First Out (LIFO) principle?", options: ["Queue", "Stack", "Linked List", "Array"], answer: 1 },
+            { q: "What is the primary function of a firewall in a computer network?", options: ["To speed up internet connections", "To protect against unauthorized access", "To manage files and folders", "To store backup data"], answer: 1 },
+            { q: "Which company developed the C programming language?", options: ["Microsoft", "Apple", "Bell Labs", "IBM"], answer: 2 },
+            { q: "Which part of the computer is responsible for calculations and logic operations?", options: ["CPU", "RAM", "Hard Drive", "GPU"], answer: 0 },
+            { q: "Which protocol is used to send email?", options: ["FTP", "HTTP", "SMTP", "SNMP"], answer: 2 },
+            { q: "What does HTTP stand for?", options: ["HyperText Transfer Protocol", "High Transfer Text Protocol", "HyperTerminal Transport Program", "Home Tool Transfer Protocol"], answer: 0 },
+            { q: "Which programming language is mainly used for Android development?", options: ["Swift", "Java", "Python", "Ruby"], answer: 1 },
+            { q: "What is the smallest unit of data in a computer?", options: ["Bit", "Byte", "Kilobyte", "Megabyte"], answer: 0 },
+            { q: "Which one is a version control system?", options: ["Windows", "Git", "Linux", "Java"], answer: 1 },
+            { q: "What does SQL stand for?", options: ["Structured Query Language", "Sequential Query Language", "Server Query Language", "Standard Query Language"], answer: 0 },
+            { q: "Which company developed Java?", options: ["Microsoft", "Sun Microsystems", "Google", "IBM"], answer: 1 },
+            { q: "What is an example of an operating system?", options: ["Google Chrome", "Microsoft Excel", "Windows", "Intel"], answer: 2 },
+            { q: "What does IP stand for in networking?", options: ["Internet Protocol", "Internal Process", "Internet Program", "Information Pathway"], answer: 0 },
+            { q: "Which of these is a front-end framework?", options: ["Django", "Flask", "React", "Spring"], answer: 2 },
+            { q: "What does DNS stand for?", options: ["Dynamic Network System", "Domain Name System", "Digital Number Service", "Data Net Service"], answer: 1 }
         ];
 
         let currentQuestionIndex = 0;
