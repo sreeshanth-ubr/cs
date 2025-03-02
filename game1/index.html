@@ -122,9 +122,9 @@
                 }
                 if (obstaclePosition <= 0) {
                     obstaclePosition = 580;
-                    score += 10;
+                    score++;
                     scoreElement.textContent = score;
-                    if (score === 100) {
+                    if (score === 20) {
                         showMessage("Hint : You can drink me, swim in me, but never hold me in your hands for long.");
                         gameRunning = false;
                         return;
