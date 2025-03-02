@@ -77,9 +77,7 @@
         let score = 0;
 
         function loadQuestion() {
-            if (score >= 10) {
-                document.getElementById("quiz-container").innerHTML = "<h2>Congratulations! You Win!</h2>";
-            }
+            
             if (currentQuestionIndex >= quizData.length) {
                     document.getElementById("quiz-container").innerHTML = "<h2>Game Over! Try Again.</h2>";
                 return;
@@ -99,6 +97,9 @@
                 result.innerText = "Correct!";
                 result.style.color = "green";
                 score++;
+                if (score >= 10) {
+                    document.getElementById("quiz-container").innerHTML = "<h2>Congratulations! You Win!</h2>";
+                }
                 document.getElementById("score").innerText = "Score: " + score;
             } else {
                 result.innerText = "Wrong! Try again.";
