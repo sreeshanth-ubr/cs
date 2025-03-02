@@ -95,6 +95,7 @@
 
 
     <div class="game-container">
+        <p id="winscore">0</p>
         <canvas id="gameCanvas" width="300" height="300"></canvas>
     </div>
 
@@ -121,8 +122,8 @@
     </div>
     <div id="youWinPopup" class="popup">
         <div class="popup-content">
-            <h2>You Win!</h2>
-            <p>Congratulations! Your Score: <span id="winScore">0</span></p>
+            <h2>Hint</h2>
+            <p id="hint"></p>
             <button onclick="restartGame()">Play Again</button>
         </div>
     </div>
@@ -162,6 +163,7 @@
             });
 
             move();
+            document.getElementById("winscore").innerText =score;
             if (score === 15) {
                 showWinPopup();
             }
@@ -169,7 +171,7 @@
 
 
         function showWinPopup() {
-            document.getElementById("winScore").innerText = score;
+            document.getElementById("hint").innerText = "Step by step, I take you high. Look where I touch the sky.";
             document.getElementById("youWinPopup").style.display = "flex";
             clearInterval(gameInterval);
         }
