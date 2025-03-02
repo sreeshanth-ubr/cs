@@ -27,8 +27,6 @@
             font-size: 20px;
             margin-bottom: 10px;
         }
-
-        /* Game Over Screen */
         #gameOverScreen {
             display: none;
             position: fixed;
@@ -59,7 +57,6 @@
     <div id="score">Score: 0</div>
     <canvas id="gameCanvas"></canvas>
 
-    <!-- Game Over Screen -->
     <div id="gameOverScreen">
         <p id="gameOverMessage"></p>
         <button id="restartBtn" onclick="restartGame()">Restart</button>
@@ -138,8 +135,23 @@
 
         function spawnObstacle() {
             if (!isGameOver) {
-                let obstacle = { x: canvas.width, y: 160, width: 25, height: 35, speed: 5 };
+                let lastObstacle = obstacles.length > 0 ? obstacles[obstacles.length - 1] : null;
+                let minGap = dino.width * 2; // Minimum gap required for safe landing
+                let newObstacleX = canvas.width; // Default position at the right edge
+                
+                // If there's an existing obstacle, adjust new obstacle's position
+                if (lastObstacle) {
+                    let distance = newObstacleX - (lastObstacle.x + lastObstacle.width);
+                    
+                    // If the distance is too small, adjust it
+                    if (distance < minGap) {
+                        newObstacleX = lastObstacle.x + lastObstacle.width + minGap;
+                    }
+                }
+
+                let obstacle = { x: newObstacleX, y: 160, width: 25, height: 35, speed: 5 };
                 obstacles.push(obstacle);
+
                 setTimeout(spawnObstacle, Math.random() * 2000 + 1000);
             }
         }
