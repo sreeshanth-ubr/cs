@@ -22,33 +22,45 @@
       max-width: 100%;
       background-color: #111;
     }
-    .controls {
-      display: grid;
-      grid-template-columns: repeat(3, 70px);
-      grid-template-rows: repeat(3, 70px);
-      gap: 8px;
-      margin-top: 20px;
+   .controls {
+        display: grid;
+        grid-template-columns: 60px 60px 60px;
+        grid-template-rows: 60px 60px;
+        gap: 8px;
+        margin-top: 15px;
+        justify-content: center;
     }
     .controls button {
-      background-color: #333;
-      border: 2px solid #555;
-      border-radius: 10px;
-      color: white;
-      font-size: 28px;
-      cursor: pointer;
-      outline: none;
-      transition: background-color 0.2s;
+        width: 60px;
+        height: 60px;
+        font-size: 18px;
+        font-weight: bold;
+        background: radial-gradient(circle, #ccc, #999);
+        border: 2px solid #666;
+        border-radius: 50%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+        cursor: pointer;
+        outline: none;
     }
-    .controls button:hover {
-      background-color: #444;
+    .controls button:active {
+        background: radial-gradient(circle, #bbb, #888);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6) inset;
     }
-    /* Positioning the buttons in a classic keypad layout */
-    .up    { grid-column: 2; grid-row: 1; }
-    .left  { grid-column: 1; grid-row: 2; }
-    .select{ grid-column: 2; grid-row: 2; font-size: 20px; }
-    .right { grid-column: 3; grid-row: 2; }
-    .down  { grid-column: 2; grid-row: 3; }
-   
+    .up {
+        grid-column: 2;
+    }
+    .left {
+        grid-column: 1;
+        grid-row: 2;
+    }
+    .down {
+        grid-column: 2;
+        grid-row: 2;
+    }
+    .right {
+        grid-column: 3;
+        grid-row: 2;
+    }
     #score {
       font-size: 24px;
       margin-bottom: 10px;
