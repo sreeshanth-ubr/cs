@@ -1,180 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake Game (Nokia Style)</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        canvas {
-            border: 2px solid white;
-            max-width: 100%;
-        }
-        .controls {
-            display: grid;
-            grid-template-columns: repeat(3, 70px);
-            grid-template-rows: repeat(3, 70px);
-            gap: 8px;
-            margin-top: 20px;
-        }
-        .controls button {
-            padding: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            background-color: lime;
-            border: 2px solid black;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-        .up { grid-column: 2; }
-        .left { grid-column: 1; grid-row: 2; }
-        .select { grid-column: 2; grid-row: 2; background-color: yellow; }
-        .right { grid-column: 3; grid-row: 2; }
-        .down { grid-column: 2; grid-row: 3; }
-        #retryButton {
-            display: none;
-            margin-top: 15px;
-            padding: 12px 25px;
-            font-size: 20px;
-            background-color: red;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        #score {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snake Game (Nokia Style Controls)</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+    }
+    canvas {
+      border: 2px solid white;
+      max-width: 100%;
+      background-color: #111;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(3, 70px);
+      grid-template-rows: repeat(3, 70px);
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .controls button {
+      background-color: #333;
+      border: 2px solid #555;
+      border-radius: 10px;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      outline: none;
+      transition: background-color 0.2s;
+    }
+    .controls button:hover {
+      background-color: #444;
+    }
+    /* Positioning the buttons in a classic keypad layout */
+    .up    { grid-column: 2; grid-row: 1; }
+    .left  { grid-column: 1; grid-row: 2; }
+    .select{ grid-column: 2; grid-row: 2; font-size: 20px; }
+    .right { grid-column: 3; grid-row: 2; }
+    .down  { grid-column: 2; grid-row: 3; }
+    #retryButton {
+      display: none;
+      margin-top: 15px;
+      padding: 12px 25px;
+      font-size: 20px;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #score {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
-    <div id="score">Score: 0</div>
-    <canvas id="gameCanvas"></canvas>
-    <div class="controls">
-        <button class="up" onclick="handleControlPress(38)">2</button>
-        <button class="left" onclick="handleControlPress(37)">4</button>
-        <button class="select">5</button>
-        <button class="right" onclick="handleControlPress(39)">6</button>
-        <button class="down" onclick="handleControlPress(40)">8</button>
-    </div>
-    <button id="retryButton" onclick="resetGame()">Retry</button>
-    <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-        const retryButton = document.getElementById("retryButton");
-        const scoreDisplay = document.getElementById("score");
+  <div id="score">Score: 0</div>
+  <canvas id="gameCanvas"></canvas>
+  <div class="controls">
+    <button class="up" onclick="handleControlPress(38)">↑</button>
+    <button class="left" onclick="handleControlPress(37)">←</button>
+    <button class="select" onclick="handleControlPress(32)">OK</button>
+    <button class="right" onclick="handleControlPress(39)">→</button>
+    <button class="down" onclick="handleControlPress(40)">↓</button>
+  </div>
+  <button id="retryButton" onclick="resetGame()">Retry</button>
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const retryButton = document.getElementById("retryButton");
+    const scoreDisplay = document.getElementById("score");
 
-        const box = 20;
-        let snake, food, direction, gameOver, gameInterval, gameStarted, score;
+    const box = 20;
+    let snake, food, direction, gameOver, gameInterval, gameStarted, score;
 
-        function setCanvasSize() {
-            canvas.width = Math.min(window.innerWidth - 20, 400);
-            canvas.height = Math.min(window.innerWidth - 20, 400);
+    function setCanvasSize() {
+      canvas.width = Math.min(window.innerWidth - 20, 400);
+      canvas.height = Math.min(window.innerWidth - 20, 400);
+    }
+
+    function initializeGame() {
+      setCanvasSize();
+      snake = [{ x: 200, y: 200 }];
+      food = {
+        x: Math.floor(Math.random() * (canvas.width / box)) * box,
+        y: Math.floor(Math.random() * (canvas.height / box)) * box
+      };
+      direction = "RIGHT";
+      gameOver = false;
+      gameStarted = false;
+      score = 0;
+      scoreDisplay.textContent = "Score: " + score;
+      retryButton.style.display = "none";
+    }
+
+    function startGame() {
+      if (gameStarted) return;
+      gameStarted = true;
+      gameInterval = setInterval(draw, 200);
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (!gameStarted) startGame();
+      changeDirection(event);
+    });
+
+    function handleControlPress(keyCode) {
+      if (!gameStarted) startGame();
+      changeDirection({ keyCode });
+    }
+
+    function changeDirection(event) {
+      const key = event.keyCode;
+      if (key === 37 && direction !== "RIGHT") direction = "LEFT";
+      else if (key === 38 && direction !== "DOWN") direction = "UP";
+      else if (key === 39 && direction !== "LEFT") direction = "RIGHT";
+      else if (key === 40 && direction !== "UP") direction = "DOWN";
+      // The OK button (or space key, code 32) can be used later for pause/select if needed.
+    }
+
+    function draw() {
+      if (gameOver) return;
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "red";
+      ctx.fillRect(food.x, food.y, box, box);
+
+      ctx.fillStyle = "lime";
+      snake.forEach((segment) => {
+        ctx.fillRect(segment.x, segment.y, box, box);
+      });
+
+      let newX = snake[0].x;
+      let newY = snake[0].y;
+
+      if (direction === "LEFT") newX -= box;
+      if (direction === "UP") newY -= box;
+      if (direction === "RIGHT") newX += box;
+      if (direction === "DOWN") newY += box;
+
+      if (newX === food.x && newY === food.y) {
+        food = {
+          x: Math.floor(Math.random() * (canvas.width / box)) * box,
+          y: Math.floor(Math.random() * (canvas.height / box)) * box
+        };
+        score++;
+        scoreDisplay.textContent = "Score: " + score;
+        if (score >= 20) {
+          alert("You win!");
+          resetGame();
         }
+      } else {
+        snake.pop();
+      }
 
-        function initializeGame() {
-            setCanvasSize();
-            snake = [{ x: 200, y: 200 }];
-            food = { x: Math.floor(Math.random() * (canvas.width / box)) * box, y: Math.floor(Math.random() * (canvas.height / box)) * box };
-            direction = "RIGHT";
-            gameOver = false;
-            gameStarted = false;
-            score = 0;
-            scoreDisplay.textContent = "Score: " + score;
-            retryButton.style.display = "none";
-        }
+      const newHead = { x: newX, y: newY };
 
-        function startGame() {
-            if (gameStarted) return;
-            gameStarted = true;
-            gameInterval = setInterval(draw, 200);
-        }
+      if (
+        newX < 0 ||
+        newX >= canvas.width ||
+        newY < 0 ||
+        newY >= canvas.height ||
+        snake.some(segment => segment.x === newX && segment.y === newY)
+      ) {
+        gameOver = true;
+        clearInterval(gameInterval);
+        retryButton.style.display = "block";
+        return;
+      }
 
-        document.addEventListener("keydown", (event) => {
-            if (!gameStarted) startGame();
-            changeDirection(event);
-        });
+      snake.unshift(newHead);
+    }
 
-        function handleControlPress(keyCode) {
-            if (!gameStarted) startGame();
-            changeDirection({ keyCode });
-        }
+    function resetGame() {
+      clearInterval(gameInterval);
+      initializeGame();
+      startGame();
+    }
 
-        function changeDirection(event) {
-            const key = event.keyCode;
-            if (key === 37 || key === 52) direction = "LEFT";   // Left (4)
-            else if (key === 38 || key === 50) direction = "UP"; // Up (2)
-            else if (key === 39 || key === 54) direction = "RIGHT"; // Right (6)
-            else if (key === 40 || key === 56) direction = "DOWN"; // Down (8)
-        }
+    window.addEventListener("resize", setCanvasSize);
 
-        function draw() {
-            if (gameOver) return;
-            ctx.fillStyle = "black";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = "red";
-            ctx.fillRect(food.x, food.y, box, box);
-
-            ctx.fillStyle = "lime";
-            snake.forEach((segment) => {
-                ctx.fillRect(segment.x, segment.y, box, box);
-            });
-
-            let newX = snake[0].x;
-            let newY = snake[0].y;
-
-            if (direction === "LEFT") newX -= box;
-            if (direction === "UP") newY -= box;
-            if (direction === "RIGHT") newX += box;
-            if (direction === "DOWN") newY += box;
-
-            if (newX === food.x && newY === food.y) {
-                food = { x: Math.floor(Math.random() * (canvas.width / box)) * box, y: Math.floor(Math.random() * (canvas.height / box)) * box };
-                score++;
-                scoreDisplay.textContent = "Score: " + score;
-                if (score >= 20) {
-                    alert("You win!");
-                    resetGame();
-                }
-            } else {
-                snake.pop();
-            }
-
-            const newHead = { x: newX, y: newY };
-
-            if (newX < 0 || newX >= canvas.width || newY < 0 || newY >= canvas.height || snake.some(segment => segment.x === newX && segment.y === newY)) {
-                gameOver = true;
-                clearInterval(gameInterval);
-                retryButton.style.display = "block";
-                return;
-            }
-
-            snake.unshift(newHead);
-        }
-
-        function resetGame() {
-            clearInterval(gameInterval);
-            initializeGame();
-            startGame();
-        }
-
-        window.addEventListener("resize", () => {
-            setCanvasSize();
-        });
-
-        initializeGame();
-    </script>
+    initializeGame();
+  </script>
 </body>
 </html>
