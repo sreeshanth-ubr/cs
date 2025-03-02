@@ -46,7 +46,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .custom-alert {
+        .message-box {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -58,7 +58,7 @@
             display: none;
             z-index: 1000;
         }
-        .custom-alert button {
+        .message-box button {
             margin-top: 10px;
             padding: 5px 10px;
             background: blue;
@@ -76,9 +76,9 @@
     </div>
     <button class="jump-btn" id="jumpBtn">Jump</button>
     <p>Score: <span id="score">0</span></p>
-    <div class="custom-alert" id="customAlert">
-        <p id="alertMessage"></p>
-        <button onclick="closeAlert()">OK</button>
+    <div class="message-box" id="messageBox">
+        <p id="messageText"></p>
+        <button onclick="closeMessage()">OK</button>
     </div>
     <script>
         let dino = document.getElementById("dino");
@@ -125,7 +125,7 @@
                     score += 10;
                     scoreElement.textContent = score;
                     if (score === 100) {
-                        showAlert("Hint: You can drink me, swim in me, but never hold me in your hands for long.");
+                        showMessage("Hint : You can drink me, swim in me, but never hold me in your hands for long.");
                         gameRunning = false;
                         return;
                     }
@@ -135,20 +135,20 @@
                 
                 let dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
                 if (obstaclePosition < 90 && obstaclePosition > 50 && dinoBottom < 40) {
-                    showAlert("Game Over");
+                    showMessage("Game Over");
                     gameRunning = false;
                     setTimeout(() => location.reload(), 2000);
                 }
             }, 20);
         }
 
-        function showAlert(message) {
-            document.getElementById("alertMessage").textContent = message;
-            document.getElementById("customAlert").style.display = "block";
+        function showMessage(message) {
+            document.getElementById("messageText").textContent = message;
+            document.getElementById("messageBox").style.display = "block";
         }
 
-        function closeAlert() {
-            document.getElementById("customAlert").style.display = "none";
+        function closeMessage() {
+            document.getElementById("messageBox").style.display = "none";
         }
 
         moveObstacle();
